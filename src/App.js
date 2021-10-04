@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box } from "@mui/system";
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Buttons from "./components/Buttons";
+import Display from "./components/Display";
 
 function App() {
+  const [result, setResult] = useState("");
+  const handleClick = (e) => {
+    setResult(result.concat(e));
+  };
+
+  const clear = () => {
+    setResult("");
+  };
+
+  const backSpace = () => {
+    setResult(result.slice(0, -1));
+  };
+
+  const calculate = () => {
+    try {
+      setResult(eval(result).toString());
+    } catch (err) {
+      setResult(err);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      className="App"
+    >
+      <Display result={result} />
+      <Buttons
+        handleClick={handleClick}
+        clear={clear}
+        backSpace={backSpace}
+        calculate={calculate}
+      />
+    </Box>
   );
 }
 
